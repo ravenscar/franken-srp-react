@@ -1,0 +1,38 @@
+{
+  "name": "franken-srp-react",
+  "version": "0.1.0",
+  "description": "react component for franken-srp",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rm -rf tsconfig.tsbuildinfo dist",
+    "build": "npm run clean && tsc --build --force",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ravenscar/franken-srp-react.git"
+  },
+  "author": "Maddi Joyce",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ravenscar/franken-srp-react/issues"
+  },
+  "homepage": "https://github.com/ravenscar/franken-srp-react#readme",
+  "dependencies": {
+    "@emotion/react": "^11.1.4",
+    "@emotion/styled": "^11.0.0",
+    "franken-srp": "^0.1.1",
+    "react": "^17.0.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.3",
+    "@types/react": "^17.0.0",
+    "jest": "^26.6.3",
+    "jsdom": "^16.4.0",
+    "node-fetch": "^2.6.1",
+    "react-dom": "^17.0.1",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.1.3"
+  }
+}

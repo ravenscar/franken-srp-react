@@ -1,0 +1,20 @@
+{
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts", "**/_cognito-test-config.ts"],
+  "compilerOptions": {
+    "strict": true,
+    "module": "commonjs",
+    "jsx": "react",
+    "declaration": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "composite": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "lib": ["ES2017", "DOM", "ESNext.BigInt"],
+    "target": "ES2017",
+    "types": ["jest", "node", "@testing-library/jest-dom"],
+    "noErrorTruncation": true
+  }
+}
