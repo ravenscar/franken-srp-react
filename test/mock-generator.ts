@@ -1,9 +1,6 @@
-import { srpLogin } from "franken-srp";
-import {
-  TAuthStep,
-  TSrpLoginParams,
-  TSrpLoginResponse,
-} from "../src/funky_types";
+import { TAuthStep, TSrpLoginParams, TSrpLoginResponse } from "franken-srp";
+
+import { mfaCode, password, username } from "./utils";
 
 export const returnTokens = async (device?: boolean): Promise<TAuthStep> => {
   const authResponse = {
@@ -28,19 +25,9 @@ export const returnTokens = async (device?: boolean): Promise<TAuthStep> => {
   };
 };
 
-export const cognitoProps = {
-  userPoolId: "USER_POOL_ID",
-  clientId: "CLIENT_ID",
-  region: "AWS_DEFAULT_REGION",
-  autoConfirmDevice: true,
-};
-export const email = "email@domain.com";
-export const password = "correct_password";
-export const mfaCode = "123456";
-
 export const mockGenerators = {
   basic: async function* (opts: TSrpLoginParams): TSrpLoginResponse {
-    if (opts.username === email && opts.password === password) {
+    if (opts.username === username && opts.password === password) {
       return returnTokens();
     } else {
       return {
@@ -50,7 +37,7 @@ export const mockGenerators = {
     }
   },
   smsMfa: async function* (opts: TSrpLoginParams): TSrpLoginResponse {
-    if (opts.username === email && opts.password === password) {
+    if (opts.username === username && opts.password === password) {
       const mfaCodeIn = yield { code: "SMS_MFA_REQUIRED" };
       if (mfaCodeIn === mfaCode) {
         return returnTokens();
@@ -68,7 +55,7 @@ export const mockGenerators = {
     }
   },
   softwareMfa: async function* (opts: TSrpLoginParams): TSrpLoginResponse {
-    if (opts.username === email && opts.password === password) {
+    if (opts.username === username && opts.password === password) {
       const mfaCodeIn = yield { code: "SOFTWARE_MFA_REQUIRED" };
       if (mfaCodeIn === mfaCode) {
         return returnTokens();

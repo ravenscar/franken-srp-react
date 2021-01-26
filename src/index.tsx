@@ -2,7 +2,7 @@ import * as React from "react";
 import { TAuthStep } from "franken-srp";
 
 import { Container, Error, Logo, Success, Title } from "./styles";
-import { EmailPassword } from "./components/email-password";
+import { UsernamePassword } from "./components/username-password";
 import { MFA } from "./components/mfa";
 import { SignInEvents, SignInSRP, useAuthStep, useSRP } from "./hooks";
 
@@ -30,7 +30,7 @@ const Form = ({
       return <MFA label="New Password" onSubmit={next} />;
   }
 
-  return <EmailPassword onSubmit={start} />;
+  return <UsernamePassword onSubmit={start} />;
 };
 
 export const SignIn = ({
@@ -39,11 +39,18 @@ export const SignIn = ({
   initial,
   cognito,
   customGenerator,
+  deviceForUsername,
   onComplete,
   onError,
 }: SignInProps) => {
   const { step, setStep } = useAuthStep({ onComplete, onError });
-  const srp = useSRP({ initial, cognito, customGenerator, setStep });
+  const srp = useSRP({
+    initial,
+    cognito,
+    customGenerator,
+    deviceForUsername,
+    setStep,
+  });
 
   return (
     <Container>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { srpLogin, TAuthStep, TSrpLoginParams } from "franken-srp";
 
-import { EmailPasswordObject } from "./components/email-password";
+import { UsernamePasswordObject } from "./components/username-password";
 
 type TAuthResponse = Required<TAuthStep>["response"];
 
@@ -11,8 +11,9 @@ export type SignInEvents = {
 };
 
 export type SignInSRP = {
-  initial?: Partial<EmailPasswordObject>;
+  initial?: Partial<UsernamePasswordObject>;
   cognito: Omit<TSrpLoginParams, "username" | "password" | "device">;
+  deviceForUsername: (username: string) => TSrpLoginParams["device"];
   customGenerator?: typeof srpLogin;
 };
 
@@ -35,17 +36,19 @@ export const useSRP = ({
   initial,
   cognito,
   customGenerator,
+  deviceForUsername,
   setStep,
 }: SignInSRP & { setStep: (step: TAuthStep) => void }) => {
   const [generator, setGenerator] = React.useState<
     ReturnType<typeof srpLogin>
   >();
-  const start = async ({ email, password }: EmailPasswordObject) => {
+  const start = async ({ username, password }: UsernamePasswordObject) => {
+    const device = deviceForUsername(username);
     const newGenerator = (customGenerator || srpLogin)({
       ...cognito,
-      username: email,
+      username,
       password,
-      device: undefined,
+      device,
     });
     const result = await newGenerator.next();
     setGenerator(newGenerator);
@@ -59,10 +62,10 @@ export const useSRP = ({
   };
 
   React.useEffect(() => {
-    if (initial?.email && initial?.password) {
-      start({ email: initial.email, password: initial.password });
+    if (initial?.username && initial?.password) {
+      start({ username: initial.username, password: initial.password });
     }
-  }, [initial?.email, initial?.password]);
+  }, [initial?.username, initial?.password]);
 
   return {
     start,
