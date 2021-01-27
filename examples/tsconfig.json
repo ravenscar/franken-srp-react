@@ -1,6 +1,6 @@
 {
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"],
+  "exclude": [],
   "compilerOptions": {
     "strict": true,
     "module": "commonjs",
@@ -10,11 +10,16 @@
     "sourceMap": true,
     "composite": true,
     "declarationMap": true,
-    "outDir": "dist",
     "rootDir": "src",
+    "outDir": "dist",
     "lib": ["ES2017", "DOM", "ESNext.BigInt"],
     "target": "ES2017",
     "types": ["jest", "node", "@testing-library/jest-dom"],
-    "noErrorTruncation": true
-  }
+    "noErrorTruncation": true,
+    "baseUrl": ".",
+    "paths": {
+      "franken-srp-react": ["../src"]
+    }
+  },
+  "references": [{ "path": ".." }]
 }
