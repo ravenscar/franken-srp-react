@@ -12,7 +12,7 @@ export type SignInProps = SignInEvents &
     logo?: string;
   };
 
-const Form = ({
+const Forms = ({
   step,
   start,
   next,
@@ -55,7 +55,7 @@ export const SignIn = ({
   return (
     <Container>
       {logo ? <Logo alt={title} src={logo} /> : <Title>{title}</Title>}
-      <Form {...srp} step={step} />
+      <Forms {...srp} step={step} />
     </Container>
   );
 };

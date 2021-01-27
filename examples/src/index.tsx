@@ -54,7 +54,7 @@ type ExampleKeys = keyof typeof examples;
 const keys = Object.keys(examples) as ExampleKeys[];
 
 const Root = () => {
-  const [example, setExample] = React.useState<keyof typeof examples>("Title");
+  const [example, setExample] = React.useState<ExampleKeys>("Title");
   const [complete, setComplete] = React.useState<string>();
   const [error, setError] = React.useState<string>();
 

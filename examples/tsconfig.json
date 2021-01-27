@@ -18,7 +18,7 @@
     "noErrorTruncation": true,
     "baseUrl": ".",
     "paths": {
-      "franken-srp-react": ["../src"]
+      "franken-srp-react": ["../dist"]
     }
   },
   "references": [{ "path": ".." }]

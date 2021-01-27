@@ -1,5 +1,5 @@
+const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const TsConfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -20,7 +20,9 @@ module.exports = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
-    plugins: [new TsConfigPathsPlugin({})],
+    alias: {
+      "franken-srp-react": path.resolve(__dirname, "../dist"),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({

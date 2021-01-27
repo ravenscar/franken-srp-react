@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button } from "../styles";
+import { Button, Form } from "../styles";
 import { Field } from "./field";
 
 export type UsernamePasswordObject = {
@@ -19,9 +19,13 @@ export const UsernamePassword = ({
 }: UsernamePasswordProps) => {
   const [username, setUsername] = React.useState(initial?.username || "");
   const [password, setPassword] = React.useState(initial?.password || "");
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit({ username, password });
+  };
 
   return (
-    <>
+    <Form onSubmit={submitHandler}>
       <Field
         name="username"
         label="Username"
@@ -31,12 +35,11 @@ export const UsernamePassword = ({
       <Field
         name="password"
         label="Password"
+        type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
       />
-      <Button type="button" onClick={() => onSubmit({ username, password })}>
-        Sign In
-      </Button>
-    </>
+      <Button type="submit">Sign In</Button>
+    </Form>
   );
 };

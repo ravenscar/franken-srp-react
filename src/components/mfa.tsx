@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Button } from "../styles";
+import { Button, Form } from "../styles";
 import { Field } from "./field";
 
 export type MFAObject = {
@@ -14,18 +14,20 @@ export type MFAProps = {
 
 export const MFA = ({ label, onSubmit }: MFAProps) => {
   const [code, setCode] = React.useState("");
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit({ code });
+  };
 
   return (
-    <>
+    <Form onSubmit={submitHandler}>
       <Field
         name="code"
         label={label}
         onChange={(e) => setCode(e.target.value)}
         value={code}
       />
-      <Button type="button" onClick={() => onSubmit({ code })}>
-        Verify
-      </Button>
-    </>
+      <Button type="submit">Verify</Button>
+    </Form>
   );
 };
