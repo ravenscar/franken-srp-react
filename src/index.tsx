@@ -4,6 +4,7 @@ import { TAuthStep } from "franken-srp";
 import { Container, Error, Logo, Success, Title } from "./styles";
 import { UsernamePassword } from "./components/username-password";
 import { MFA } from "./components/mfa";
+import { Loading } from "./components/loading";
 import { SignInEvents, SignInSRP, useAuthStep, useSRP } from "./hooks";
 
 export type SignInProps = SignInEvents &
@@ -16,7 +17,12 @@ const Forms = ({
   step,
   start,
   next,
+  loading,
 }: { step?: TAuthStep } & ReturnType<typeof useSRP>) => {
+  if (loading) {
+    return <Loading />;
+  }
+
   switch (step?.code) {
     case "TOKENS":
       return <Success role="alert">Signed in successfully.</Success>;

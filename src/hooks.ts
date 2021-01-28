@@ -39,10 +39,12 @@ export const useSRP = ({
   deviceForUsername,
   setStep,
 }: SignInSRP & { setStep: (step: TAuthStep) => void }) => {
+  const [loading, setLoading] = React.useState(false);
   const [generator, setGenerator] = React.useState<
     ReturnType<typeof srpLogin>
   >();
   const start = async ({ username, password }: UsernamePasswordObject) => {
+    setLoading(true);
     const device = deviceForUsername(username);
     const newGenerator = (customGenerator || srpLogin)({
       ...cognito,
@@ -53,12 +55,15 @@ export const useSRP = ({
     const result = await newGenerator.next();
     setGenerator(newGenerator);
     setStep(result.value);
+    setLoading(false);
   };
   const next = async ({ code }: { code?: string }) => {
+    setLoading(true);
     if (generator) {
       const result = await (code ? generator.next(code) : generator.next());
       setStep(result.value);
     }
+    setLoading(false);
   };
 
   React.useEffect(() => {
@@ -70,5 +75,6 @@ export const useSRP = ({
   return {
     start,
     next,
+    loading,
   };
 };
