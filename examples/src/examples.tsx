@@ -21,6 +21,10 @@ const defaultProps = {
     userPoolId: USER_POOL_ID,
     autoConfirmDevice: true,
   },
+  labels: {
+    prompt: "Enter your email and password to access your account.",
+    username: "Email Address",
+  },
 };
 
 type TStandardLoginProps = Pick<LoginProps, "onComplete" | "onError">;

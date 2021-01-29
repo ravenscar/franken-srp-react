@@ -6,6 +6,8 @@ export const Logo = styled.img``;
 
 export const Title = styled.h1``;
 
+export const Subtitle = styled.h3``;
+
 export const Error = styled.p``;
 
 export const Success = styled.p``;

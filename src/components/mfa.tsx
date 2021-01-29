@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLabels } from "../labels";
 
 import { Button, Form } from "../styles";
 import { Field } from "./field";
@@ -13,6 +14,7 @@ export type MFAProps = {
 };
 
 export const MFA = ({ label, onSubmit }: MFAProps) => {
+  const { verify } = useLabels();
   const [code, setCode] = React.useState("");
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,7 +30,7 @@ export const MFA = ({ label, onSubmit }: MFAProps) => {
         value={code}
         autoFocus
       />
-      <Button type="submit">Verify</Button>
+      <Button type="submit">{verify}</Button>
     </Form>
   );
 };

@@ -1,6 +1,7 @@
 import * as React from "react";
+import { useLabels } from "../labels";
 
-import { Button, Form } from "../styles";
+import { Button, Form, Subtitle } from "../styles";
 import { Field } from "./field";
 
 export type UsernamePasswordObject = {
@@ -19,6 +20,7 @@ export const UsernamePassword = ({
   onSubmit,
   hidden,
 }: UsernamePasswordProps) => {
+  const labels = useLabels();
   const [username, setUsername] = React.useState(initial?.username || "");
   const [password, setPassword] = React.useState(initial?.password || "");
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,21 +30,22 @@ export const UsernamePassword = ({
 
   return (
     <Form onSubmit={submitHandler} hidden={hidden}>
+      <Subtitle>{labels.prompt}</Subtitle>
       <Field
         name="username"
-        label="Username"
+        label={labels.username}
         onChange={(e) => setUsername(e.target.value)}
         value={username}
         autoFocus
       />
       <Field
         name="password"
-        label="Password"
         type="password"
+        label={labels.password}
         onChange={(e) => setPassword(e.target.value)}
         value={password}
       />
-      <Button type="submit">Sign In</Button>
+      <Button type="submit">{labels.signIn}</Button>
     </Form>
   );
 };
