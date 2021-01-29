@@ -5,29 +5,26 @@ import { Container, Error, Logo, Success, Title } from "./styles";
 import { UsernamePassword } from "./components/username-password";
 import { MFA } from "./components/mfa";
 import { Loading } from "./components/loading";
-import { SignInEvents, SignInSRP, useAuthStep, useSRP } from "./hooks";
+import { LoginEvents, LoginSRP, useAuthStep, useSRP } from "./hooks";
 
-export type SignInProps = SignInEvents &
-  SignInSRP & {
+export type LoginProps = LoginEvents &
+  LoginSRP & {
     title: string;
     logo?: string;
   };
 
 const Forms = ({
   step,
-  start,
   next,
   loading,
 }: { step?: TAuthStep } & ReturnType<typeof useSRP>) => {
-  if (loading) {
-    return <Loading />;
-  }
+  if (loading) return <Loading />;
 
   switch (step?.code) {
+    case "ERROR":
+      return <Error role="alert">{step.error?.message}</Error>;
     case "TOKENS":
       return <Success role="alert">Signed in successfully.</Success>;
-    case "ERROR":
-      return <Error role="alert">{step?.error?.toString()}</Error>;
     case "SMS_MFA_REQUIRED":
       return <MFA label="SMS Code" onSubmit={next} />;
     case "SOFTWARE_MFA_REQUIRED":
@@ -36,10 +33,10 @@ const Forms = ({
       return <MFA label="New Password" onSubmit={next} />;
   }
 
-  return <UsernamePassword onSubmit={start} />;
+  return null;
 };
 
-export const SignIn = ({
+export const Login = ({
   title,
   logo,
   initial,
@@ -48,7 +45,7 @@ export const SignIn = ({
   deviceForUsername,
   onComplete,
   onError,
-}: SignInProps) => {
+}: LoginProps) => {
   const { step, setStep } = useAuthStep({ onComplete, onError });
   const srp = useSRP({
     initial,
@@ -60,8 +57,14 @@ export const SignIn = ({
 
   return (
     <Container>
-      {logo ? <Logo alt={title} src={logo} /> : <Title>{title}</Title>}
+      {logo ? <Logo alt={title} src={logo} /> : null}
+      <Title>{title}</Title>
       <Forms {...srp} step={step} />
+      <UsernamePassword
+        onSubmit={srp.start}
+        initial={initial}
+        hidden={!!srp.loading || (!!step && step.code !== "ERROR")}
+      />
     </Container>
   );
 };

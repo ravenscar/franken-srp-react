@@ -1,4 +1,17 @@
+import * as React from "react";
+import { Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
+
+const globalCss = css`
+  html {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+      "Helvetica Neue", sans-serif;
+  }
+`;
+
+export const GlobalStyles = () => <Global styles={globalCss} />;
 
 export const Container = styled.div`
   position: absolute;
@@ -8,14 +21,15 @@ export const Container = styled.div`
   bottom: 0;
 
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 `;
 
 export const List = styled.div`
+  flex: 0 0 38px;
   display: flex;
-  flex-direction: column;
-  justify-content: stretch;
-  padding: 10px;
+  flex-direction: row;
+  justify-content: center;
+  padding: 5px;
   overflow: auto;
   min-width: 100px;
 `;
@@ -24,10 +38,11 @@ export const Item = styled.button<{ selected: boolean }>`
   background: none;
   border: none;
   font-size: 16px;
-  margin: 5px 0;
+  margin: 0 5px;
   padding: 5px 10px;
   text-align: left;
   cursor: pointer;
+  text-decoration: underline;
 
   background-color: ${(props) => (props.selected ? "#eeeeee" : "transparent")};
   &:hover {
@@ -38,21 +53,16 @@ export const Item = styled.button<{ selected: boolean }>`
   }
 `;
 
-export const Display = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  flex: 1;
-`;
-
 export const Example = styled.div`
-  flex: 1;
+  flex: 4 1;
   overflow: auto;
-  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Output = styled.pre`
-  height: 250px;
+  flex: 1 8 20px;
   margin: 10px;
   padding: 5px;
   border-radius: 2px;

@@ -11,11 +11,13 @@ export type UsernamePasswordObject = {
 export type UsernamePasswordProps = {
   initial?: Partial<UsernamePasswordObject>;
   onSubmit: (params: UsernamePasswordObject) => void;
+  hidden: boolean;
 };
 
 export const UsernamePassword = ({
   initial,
   onSubmit,
+  hidden,
 }: UsernamePasswordProps) => {
   const [username, setUsername] = React.useState(initial?.username || "");
   const [password, setPassword] = React.useState(initial?.password || "");
@@ -25,12 +27,13 @@ export const UsernamePassword = ({
   };
 
   return (
-    <Form onSubmit={submitHandler}>
+    <Form onSubmit={submitHandler} hidden={hidden}>
       <Field
         name="username"
         label="Username"
         onChange={(e) => setUsername(e.target.value)}
         value={username}
+        autoFocus
       />
       <Field
         name="password"

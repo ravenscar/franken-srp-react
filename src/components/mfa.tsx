@@ -26,6 +26,7 @@ export const MFA = ({ label, onSubmit }: MFAProps) => {
         label={label}
         onChange={(e) => setCode(e.target.value)}
         value={code}
+        autoFocus
       />
       <Button type="submit">Verify</Button>
     </Form>

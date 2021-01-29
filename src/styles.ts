@@ -10,7 +10,9 @@ export const Error = styled.p``;
 
 export const Success = styled.p``;
 
-export const Form = styled.form``;
+export const Form = styled.form<{ hidden?: boolean }>`
+  visibility: ${(props) => (props.hidden ? "hidden" : "visible")};
+`;
 
 export const FieldContainer = styled.div``;
 
