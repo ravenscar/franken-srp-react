@@ -2,13 +2,15 @@ import * as React from "react";
 
 export const defaultLabels = {
   prompt: "",
-  username: "Username",
-  password: "Password",
+  username: "Your username",
+  password: "Your password",
   signIn: "Sign In",
-  smsPrompt: "Code sent to",
-  smsMFA: "SMS Code",
-  totpPrompt: "",
-  totpMFA: "MFA Code",
+  smsPrompt:
+    "Your account is protected with multi-factor authentication using SMS. Enter the code sent to",
+  smsMFA: "Your SMS Code",
+  totpPrompt:
+    "Your account is protected with multi-factor authentication using a one-time code. Enter the code from your authenticator app to continue.",
+  totpMFA: "Your MFA code",
   verify: "Verify",
   newPassword: "New Password",
   success: "Signed in successfully.",

@@ -22,8 +22,7 @@ const defaultProps = {
     autoConfirmDevice: true,
   },
   labels: {
-    prompt: "Enter your email and password to access your account.",
-    username: "Email Address",
+    username: "Your email address",
   },
 };
 

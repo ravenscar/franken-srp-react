@@ -49,7 +49,9 @@ export const useSRP = ({
   deviceForUsername,
   setStep,
 }: LoginSRP & { setStep: (step: TAuthStep) => void }) => {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(
+    !!(initial?.username && initial?.password)
+  );
   const [generator, setGenerator] = React.useState<
     ReturnType<typeof srpLogin>
   >();

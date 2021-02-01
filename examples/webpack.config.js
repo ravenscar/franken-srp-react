@@ -22,6 +22,7 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js"],
     alias: {
       "franken-srp-react": path.resolve(__dirname, "../dist"),
+      "react-dom": "@hot-loader/react-dom",
     },
   },
   plugins: [
