@@ -1,17 +1,12 @@
 import * as React from "react";
-import { useLabels } from "../labels";
+import { useLabels, LoginParams } from "../hooks";
 
 import { Button, Form, Subtitle } from "../styles";
 import { Field } from "./field";
 
-export type UsernamePasswordObject = {
-  username: string;
-  password: string;
-};
-
 export type UsernamePasswordProps = {
-  initial?: Partial<UsernamePasswordObject>;
-  onSubmit: (params: UsernamePasswordObject) => void;
+  initial?: Partial<LoginParams>;
+  onSubmit: (params: LoginParams) => void;
   hidden: boolean;
 };
 

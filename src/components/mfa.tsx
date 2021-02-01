@@ -1,19 +1,16 @@
 import * as React from "react";
-import { useLabels } from "../labels";
 
-import { Button, Form } from "../styles";
+import { useLabels, MFAParams } from "../hooks";
+import { Hint, Button, Form } from "../styles";
 import { Field } from "./field";
-
-export type MFAObject = {
-  code: string;
-};
 
 export type MFAProps = {
   label: string;
-  onSubmit: (params: MFAObject) => void;
+  hint?: string;
+  onSubmit: (params: MFAParams) => void;
 };
 
-export const MFA = ({ label, onSubmit }: MFAProps) => {
+export const MFA = ({ label, hint, onSubmit }: MFAProps) => {
   const { verify } = useLabels();
   const [code, setCode] = React.useState("");
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,6 +20,7 @@ export const MFA = ({ label, onSubmit }: MFAProps) => {
 
   return (
     <Form onSubmit={submitHandler}>
+      {hint && <Hint>{hint}</Hint>}
       <Field
         name="code"
         label={label}

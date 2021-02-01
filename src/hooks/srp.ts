@@ -6,7 +6,14 @@ import {
   TSrpLoginParams,
 } from "franken-srp";
 
-import { UsernamePasswordObject } from "./components/username-password";
+export type LoginParams = {
+  username: string;
+  password: string;
+};
+
+export type MFAParams = {
+  code: string;
+};
 
 export type LoginEvents = {
   onComplete: (response: TAuthResponse) => void;
@@ -14,7 +21,7 @@ export type LoginEvents = {
 };
 
 export type LoginSRP = {
-  initial?: Partial<UsernamePasswordObject>;
+  initial?: Partial<LoginParams>;
   cognito: Omit<TSrpLoginParams, "username" | "password" | "device">;
   deviceForUsername: (username: string) => TSrpLoginParams["device"];
   customGenerator?: typeof srpLogin;
@@ -46,7 +53,7 @@ export const useSRP = ({
   const [generator, setGenerator] = React.useState<
     ReturnType<typeof srpLogin>
   >();
-  const start = async ({ username, password }: UsernamePasswordObject) => {
+  const start = async ({ username, password }: LoginParams) => {
     setLoading(true);
     const device = deviceForUsername(username);
     const newGenerator = (customGenerator || srpLogin)({
