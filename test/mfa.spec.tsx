@@ -1,10 +1,11 @@
 import * as React from "react";
 import { act, render, screen } from "@testing-library/react";
 
-import { SignIn } from "../src";
+import { Login } from "../src";
 import { mockGenerators } from "./mock-generator";
 import {
   defaultProps,
+  labels,
   password,
   username,
   mfaCode,
@@ -15,13 +16,14 @@ import {
 
 describe("sms mfa", () => {
   it("returns tokens", async () => {
-    render(
-      <SignIn {...defaultProps} customGenerator={mockGenerators.smsMfa} />
+    render(<Login {...defaultProps} customGenerator={mockGenerators.smsMfa} />);
+    await fillAndClick(
+      { [labels.username]: username, [labels.password]: password },
+      labels.signIn
     );
-    await fillAndClick({ Username: username, Password: password }, "Sign In");
 
-    expect(screen.getByLabelText("SMS Code")).toHaveValue("");
-    await fillAndClick({ "SMS Code": mfaCode }, "Verify");
+    expect(screen.getByLabelText(labels.smsMFA)).toHaveValue("");
+    await fillAndClick({ [labels.smsMFA]: mfaCode }, labels.verify);
 
     expect(onComplete).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -36,13 +38,14 @@ describe("sms mfa", () => {
   });
 
   it("shows error", async () => {
-    render(
-      <SignIn {...defaultProps} customGenerator={mockGenerators.smsMfa} />
+    render(<Login {...defaultProps} customGenerator={mockGenerators.smsMfa} />);
+    await fillAndClick(
+      { [labels.username]: username, [labels.password]: password },
+      labels.signIn
     );
-    await fillAndClick({ Username: username, Password: password }, "Sign In");
 
-    expect(screen.getByLabelText("SMS Code")).toHaveValue("");
-    await fillAndClick({ "SMS Code": "incorrect" }, "Verify");
+    expect(screen.getByLabelText(labels.smsMFA)).toHaveValue("");
+    await fillAndClick({ [labels.smsMFA]: "incorrect" }, labels.verify);
 
     expect(onError).toHaveBeenCalled();
     expect(onComplete).not.toHaveBeenCalled();
@@ -52,7 +55,7 @@ describe("sms mfa", () => {
   it("works with initial defaultProps", async () => {
     await act(async () => {
       render(
-        <SignIn
+        <Login
           {...defaultProps}
           customGenerator={mockGenerators.smsMfa}
           initial={{ username, password }}
@@ -60,8 +63,8 @@ describe("sms mfa", () => {
       );
     });
 
-    expect(screen.getByLabelText("SMS Code")).toHaveValue("");
-    await fillAndClick({ "SMS Code": mfaCode }, "Verify");
+    expect(screen.getByLabelText(labels.smsMFA)).toHaveValue("");
+    await fillAndClick({ [labels.smsMFA]: mfaCode }, labels.verify);
 
     expect(onComplete).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -79,12 +82,15 @@ describe("sms mfa", () => {
 describe("software mfa", () => {
   it("returns tokens", async () => {
     render(
-      <SignIn {...defaultProps} customGenerator={mockGenerators.softwareMfa} />
+      <Login {...defaultProps} customGenerator={mockGenerators.softwareMfa} />
     );
-    await fillAndClick({ Username: username, Password: password }, "Sign In");
+    await fillAndClick(
+      { [labels.username]: username, [labels.password]: password },
+      labels.signIn
+    );
 
-    expect(screen.getByLabelText("MFA Code")).toHaveValue("");
-    await fillAndClick({ "MFA Code": mfaCode }, "Verify");
+    expect(screen.getByLabelText(labels.totpMFA)).toHaveValue("");
+    await fillAndClick({ [labels.totpMFA]: mfaCode }, labels.verify);
 
     expect(onComplete).toHaveBeenCalledWith(
       expect.objectContaining({

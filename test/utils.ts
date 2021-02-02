@@ -1,6 +1,6 @@
 import { act, fireEvent, screen } from "@testing-library/react";
 
-import { SignInProps } from "../src";
+import { LoginProps } from "../src";
 
 export const cognitoProps = {
   userPoolId: "USER_POOL_ID",
@@ -15,13 +15,23 @@ export const mfaCode = "123456";
 export const onComplete = jest.fn();
 export const onError = jest.fn();
 
-export const defaultProps: SignInProps = {
+export const labels = {
+  username: "username?",
+  password: "password?",
+  smsMFA: "sms code?",
+  totpMFA: "totp code?",
+  signIn: "sign in!",
+  verify: "verify!",
+};
+
+export const defaultProps: LoginProps = {
   onComplete,
   onError,
   title: "SignIn With Cognito",
   logo: "./logo.jpg",
   cognito: cognitoProps,
   deviceForUsername: () => undefined,
+  labels,
 };
 
 beforeEach(() => {

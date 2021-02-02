@@ -2,8 +2,12 @@ import { TAuthStep, TSrpLoginParams, TSrpLoginResponse } from "franken-srp";
 
 import { mfaCode, password, username } from "./utils";
 
-export const returnTokens = async (device?: boolean): Promise<TAuthStep> => {
+export const returnTokens = async (
+  username: string,
+  device?: boolean
+): Promise<TAuthStep> => {
   const authResponse = {
+    username,
     tokens: {
       accessToken: "ACCESS_TOKEN",
       idToken: "ID_TOKEN",
@@ -28,7 +32,7 @@ export const returnTokens = async (device?: boolean): Promise<TAuthStep> => {
 export const mockGenerators = {
   basic: async function* (opts: TSrpLoginParams): TSrpLoginResponse {
     if (opts.username === username && opts.password === password) {
-      return returnTokens();
+      return returnTokens(username);
     } else {
       return {
         code: "ERROR",
@@ -40,7 +44,7 @@ export const mockGenerators = {
     if (opts.username === username && opts.password === password) {
       const mfaCodeIn = yield { code: "SMS_MFA_REQUIRED" };
       if (mfaCodeIn === mfaCode) {
-        return returnTokens();
+        return returnTokens(username);
       } else {
         return {
           code: "ERROR",
@@ -58,7 +62,7 @@ export const mockGenerators = {
     if (opts.username === username && opts.password === password) {
       const mfaCodeIn = yield { code: "SOFTWARE_MFA_REQUIRED" };
       if (mfaCodeIn === mfaCode) {
-        return returnTokens();
+        return returnTokens(username);
       } else {
         return {
           code: "ERROR",

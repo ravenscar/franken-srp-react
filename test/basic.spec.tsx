@@ -1,13 +1,13 @@
 import * as React from "react";
 import { act, render, screen } from "@testing-library/react";
 
-import { SignIn } from "../src";
+import { Login } from "../src";
 import { mockGenerators } from "./mock-generator";
 import {
   defaultProps,
+  labels,
   password,
   username,
-  mfaCode,
   onComplete,
   onError,
   fillAndClick,
@@ -15,19 +15,19 @@ import {
 
 describe("default component", () => {
   it("renders initial sign in screen", () => {
-    render(<SignIn {...defaultProps} />);
-    expect(screen.queryByText(defaultProps.title)).toBeNull();
+    render(<Login {...defaultProps} />);
+    expect(screen.getByText(defaultProps.title)).toBeDefined();
     expect(screen.getByAltText(defaultProps.title)).toHaveAttribute(
       "src",
       defaultProps.logo
     );
-    expect(screen.getByLabelText("Username")).toHaveValue("");
-    expect(screen.getByLabelText("Password")).toHaveValue("");
-    expect(screen.getByText("Sign In")).toBeDefined();
+    expect(screen.getByLabelText(labels.username)).toHaveValue("");
+    expect(screen.getByLabelText(labels.password)).toHaveValue("");
+    expect(screen.getByText(labels.signIn)).toBeDefined();
   });
 
   it("shows title if logo is undefined", () => {
-    render(<SignIn {...defaultProps} logo={undefined} />);
+    render(<Login {...defaultProps} logo={undefined} />);
     expect(screen.getByText(defaultProps.title)).toHaveTextContent(
       defaultProps.title
     );
@@ -36,8 +36,11 @@ describe("default component", () => {
 
 describe("basic login", () => {
   it("returns tokens", async () => {
-    render(<SignIn {...defaultProps} customGenerator={mockGenerators.basic} />);
-    await fillAndClick({ Username: username, Password: password }, "Sign In");
+    render(<Login {...defaultProps} customGenerator={mockGenerators.basic} />);
+    await fillAndClick(
+      { [labels.username]: username, [labels.password]: password },
+      labels.signIn
+    );
 
     expect(onComplete).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -52,10 +55,10 @@ describe("basic login", () => {
   });
 
   it("shows error", async () => {
-    render(<SignIn {...defaultProps} customGenerator={mockGenerators.basic} />);
+    render(<Login {...defaultProps} customGenerator={mockGenerators.basic} />);
     await fillAndClick(
-      { Username: username, Password: "incorrect" },
-      "Sign In"
+      { [labels.username]: username, [labels.password]: "incorrect" },
+      labels.signIn
     );
 
     expect(onError).toHaveBeenCalled();
@@ -66,7 +69,7 @@ describe("basic login", () => {
   it("works with initial defaultProps", async () => {
     await act(async () => {
       render(
-        <SignIn
+        <Login
           {...defaultProps}
           customGenerator={mockGenerators.basic}
           initial={{ username, password }}
