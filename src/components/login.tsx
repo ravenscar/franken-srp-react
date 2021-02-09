@@ -7,7 +7,7 @@ import { Forms } from "./forms";
 
 export type RootProps = LoginEvents &
   LoginSRP & {
-    title: string;
+    title?: string;
     logo?: string;
   };
 
@@ -19,7 +19,7 @@ export const Root = (props: RootProps) => {
   return (
     <Container>
       {logo ? <Logo alt={title} src={logo} /> : null}
-      <Title>{title}</Title>
+      {title ? <Title>{title}</Title> : null}
       <Forms {...srp} step={step} />
       <UsernamePassword
         onSubmit={srp.start}
