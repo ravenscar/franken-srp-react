@@ -4,7 +4,10 @@ import { LoginProps } from "franken-srp-react";
 const STORAGE_KEY = "fraken-srp-example";
 const storageKey = (username: string) => [STORAGE_KEY, username].join(".");
 
-type TDevice = Required<Required<TAuthResponse>["newDevice"]>;
+type TDevice = Omit<
+  Required<Required<TAuthResponse>["newDevice"]>,
+  "deviceAutoConfirmed" | "deviceAutoRemembered" | "userConfirmationNecessary"
+>;
 const isDevice = (d: any): d is TDevice =>
   typeof d === "object" &&
   typeof d.key === "string" &&

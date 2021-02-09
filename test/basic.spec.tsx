@@ -5,6 +5,7 @@ import { Login } from "../src";
 import { mockGenerators } from "./mock-generator";
 import {
   defaultProps,
+  title,
   labels,
   password,
   username,
@@ -16,8 +17,8 @@ import {
 describe("default component", () => {
   it("renders initial sign in screen", () => {
     render(<Login {...defaultProps} />);
-    expect(screen.getByText(defaultProps.title)).toBeDefined();
-    expect(screen.getByAltText(defaultProps.title)).toHaveAttribute(
+    expect(screen.getByText(title)).toBeDefined();
+    expect(screen.getByAltText(title)).toHaveAttribute(
       "src",
       defaultProps.logo
     );
@@ -28,9 +29,7 @@ describe("default component", () => {
 
   it("shows title if logo is undefined", () => {
     render(<Login {...defaultProps} logo={undefined} />);
-    expect(screen.getByText(defaultProps.title)).toHaveTextContent(
-      defaultProps.title
-    );
+    expect(screen.getByText(title)).toHaveTextContent(title);
   });
 });
 

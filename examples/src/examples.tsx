@@ -20,6 +20,7 @@ const defaultProps = {
     clientId: CLIENT_ID,
     userPoolId: USER_POOL_ID,
     autoConfirmDevice: true,
+    autoRememberDevice: "remembered" as const,
   },
   labels: {
     username: "Your email address",

@@ -24,10 +24,11 @@ export const labels = {
   verify: "verify!",
 };
 
+export const title = "SignIn With Cognito";
 export const defaultProps: LoginProps = {
   onComplete,
   onError,
-  title: "SignIn With Cognito",
+  title,
   logo: "./logo.jpg",
   cognito: cognitoProps,
   deviceForUsername: () => undefined,
