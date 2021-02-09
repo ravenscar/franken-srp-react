@@ -23,7 +23,9 @@ export type LoginEvents = {
 export type LoginSRP = {
   initial?: Partial<LoginParams>;
   cognito: Omit<TSrpLoginParams, "username" | "password" | "device">;
-  deviceForUsername: (username: string) => TSrpLoginParams["device"];
+  deviceForUsername: (
+    username: string
+  ) => Promise<TSrpLoginParams["device"]> | TSrpLoginParams["device"];
   customGenerator?: typeof srpLogin;
 };
 
@@ -31,7 +33,7 @@ export const useAuthStep = ({ onComplete, onError }: LoginEvents) => {
   const [step, setStep] = React.useState<TAuthStep | undefined>();
   return {
     step,
-    setStep: React.useCallback((newStep: TAuthStep | undefined) => {
+    setStep: (newStep: TAuthStep | undefined) => {
       setStep(newStep);
       if (newStep?.code === "TOKENS" && newStep.response) {
         onComplete(newStep.response);
@@ -39,9 +41,10 @@ export const useAuthStep = ({ onComplete, onError }: LoginEvents) => {
       if (newStep?.error) {
         onError(newStep.error);
       }
-    }, []),
+    },
   };
 };
+
 export const useSRP = ({
   initial,
   cognito,
@@ -57,7 +60,7 @@ export const useSRP = ({
   >();
   const start = async ({ username, password }: LoginParams) => {
     setLoading(true);
-    const device = deviceForUsername(username);
+    const device = await deviceForUsername(username);
     const newGenerator = (customGenerator || srpLogin)({
       ...cognito,
       username,
