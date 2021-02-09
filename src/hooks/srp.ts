@@ -31,7 +31,7 @@ export const useAuthStep = ({ onComplete, onError }: LoginEvents) => {
   const [step, setStep] = React.useState<TAuthStep | undefined>();
   return {
     step,
-    setStep: (newStep: TAuthStep | undefined) => {
+    setStep: React.useCallback((newStep: TAuthStep | undefined) => {
       setStep(newStep);
       if (newStep?.code === "TOKENS" && newStep.response) {
         onComplete(newStep.response);
@@ -39,7 +39,7 @@ export const useAuthStep = ({ onComplete, onError }: LoginEvents) => {
       if (newStep?.error) {
         onError(newStep.error);
       }
-    },
+    }, []),
   };
 };
 export const useSRP = ({
@@ -66,16 +66,16 @@ export const useSRP = ({
     });
     const result = await newGenerator.next();
     setGenerator(newGenerator);
-    setStep(result.value);
     setLoading(false);
+    setStep(result.value);
   };
   const next = async ({ code }: { code?: string }) => {
-    setLoading(true);
     if (generator) {
+      setLoading(true);
       const result = await (code ? generator.next(code) : generator.next());
+      setLoading(false);
       setStep(result.value);
     }
-    setLoading(false);
   };
 
   React.useEffect(() => {
