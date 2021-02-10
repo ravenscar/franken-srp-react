@@ -7,6 +7,7 @@ export const cognitoProps = {
   clientId: "CLIENT_ID",
   region: "AWS_DEFAULT_REGION",
   autoConfirmDevice: true,
+  autoRememberDevice: null,
 };
 export const username = "email@domain.com";
 export const password = "correct_password";

@@ -19,6 +19,7 @@ export const returnTokens = async (
       ? {
           key: "DEVICE_KEY",
           groupKey: "DEVICE_GROUP_KEY",
+          deviceAutoConfirmed: true,
         }
       : undefined,
   };

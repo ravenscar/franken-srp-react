@@ -12,6 +12,8 @@ export const defaultLabels = {
     "Your account is protected with multi-factor authentication using a one-time code. Enter the code from your authenticator app to continue.",
   totpMFA: "Your MFA code",
   verify: "Verify",
+  newPasswordPrompt:
+    "Your password has been reset. Enter a new password to continue.",
   newPassword: "New Password",
   success: "Signed in successfully.",
 };

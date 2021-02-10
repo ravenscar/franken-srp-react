@@ -17,6 +17,7 @@ export const Forms = ({
     totpMFA,
     totpPrompt,
     newPassword,
+    newPasswordPrompt,
     success,
   } = useLabels();
   if (loading) return <Loading />;
@@ -37,7 +38,14 @@ export const Forms = ({
     case "SOFTWARE_MFA_REQUIRED":
       return <MFA label={totpMFA} hint={totpPrompt} onSubmit={next} />;
     case "NEW_PASSWORD_REQUIRED":
-      return <MFA label={newPassword} onSubmit={next} />;
+      return (
+        <MFA
+          label={newPassword}
+          hint={newPasswordPrompt}
+          type="password"
+          onSubmit={next}
+        />
+      );
   }
 
   return null;

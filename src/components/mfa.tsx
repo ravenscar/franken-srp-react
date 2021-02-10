@@ -6,11 +6,12 @@ import { Field } from "./field";
 
 export type MFAProps = {
   label: string;
+  type?: HTMLInputElement["type"];
   hint?: string;
   onSubmit: (params: MFAParams) => void;
 };
 
-export const MFA = ({ label, hint, onSubmit }: MFAProps) => {
+export const MFA = ({ label, type, hint, onSubmit }: MFAProps) => {
   const { verify } = useLabels();
   const [code, setCode] = React.useState("");
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,6 +27,7 @@ export const MFA = ({ label, hint, onSubmit }: MFAProps) => {
         label={label}
         onChange={(e) => setCode(e.target.value)}
         value={code}
+        type={type}
         autoFocus
       />
       <Button type="submit">{verify}</Button>
