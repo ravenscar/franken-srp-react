@@ -22,7 +22,7 @@
   "dependencies": {
     "@emotion/react": "^11.1.4",
     "@emotion/styled": "^11.0.0",
-    "franken-srp": "^0.2.5",
+    "franken-srp": "^0.3.2",
     "polished": "^4.1.0",
     "react": "^17.0.1"
   },
