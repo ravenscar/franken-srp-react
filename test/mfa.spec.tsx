@@ -47,9 +47,23 @@ describe("sms mfa", () => {
     expect(screen.getByLabelText(labels.smsMFA)).toHaveValue("");
     await fillAndClick({ [labels.smsMFA]: "incorrect" }, labels.verify);
 
-    expect(onError).toHaveBeenCalled();
+    expect(onError).not.toHaveBeenCalled();
     expect(onComplete).not.toHaveBeenCalled();
+
     expect(screen.getByRole("alert")).toHaveTextContent(/incorrect/);
+    expect(screen.getByLabelText(labels.smsMFA)).toHaveValue("");
+    await fillAndClick({ [labels.smsMFA]: mfaCode }, labels.verify);
+
+    expect(onComplete).toHaveBeenCalledWith(
+      expect.objectContaining({
+        tokens: expect.objectContaining({
+          accessToken: "ACCESS_TOKEN",
+          refreshToken: "REFRESH_TOKEN",
+        }),
+      })
+    );
+    expect(onError).not.toHaveBeenCalled();
+    expect(screen.getByRole("alert")).toHaveTextContent(/success/);
   });
 
   it("works with initial defaultProps", async () => {

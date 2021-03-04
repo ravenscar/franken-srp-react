@@ -38,7 +38,7 @@ export const useAuthStep = ({ onComplete, onError }: LoginEvents) => {
       if (newStep?.code === "TOKENS" && newStep.response) {
         onComplete(newStep.response);
       }
-      if (newStep?.error) {
+      if (newStep?.code === "ERROR" && newStep?.error) {
         onError(newStep.error);
       }
     },

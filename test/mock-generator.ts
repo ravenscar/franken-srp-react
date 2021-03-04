@@ -1,6 +1,6 @@
 import { TAuthStep, TSrpLoginParams, TSrpLoginResponse } from "franken-srp";
 
-import { mfaCode, password, username } from "./utils";
+import { mfaCode, mfaCodeHint, password, username } from "./utils";
 
 export const returnTokens = async (
   username: string,
@@ -43,15 +43,16 @@ export const mockGenerators = {
   },
   smsMfa: async function* (opts: TSrpLoginParams): TSrpLoginResponse {
     if (opts.username === username && opts.password === password) {
-      const mfaCodeIn = yield { code: "SMS_MFA_REQUIRED" };
-      if (mfaCodeIn === mfaCode) {
-        return returnTokens(username);
-      } else {
-        return {
-          code: "ERROR",
+      let mfaCodeIn = yield { code: "SMS_MFA_REQUIRED", hint: mfaCodeHint };
+      while (mfaCodeIn !== mfaCode) {
+        mfaCodeIn = yield {
+          code: "SMS_MFA_REQUIRED",
+          hint: mfaCodeHint,
           error: new Error("MFA Code incorrect"),
         };
       }
+
+      return returnTokens(username);
     } else {
       return {
         code: "ERROR",
@@ -61,15 +62,15 @@ export const mockGenerators = {
   },
   softwareMfa: async function* (opts: TSrpLoginParams): TSrpLoginResponse {
     if (opts.username === username && opts.password === password) {
-      const mfaCodeIn = yield { code: "SOFTWARE_MFA_REQUIRED" };
-      if (mfaCodeIn === mfaCode) {
-        return returnTokens(username);
-      } else {
-        return {
-          code: "ERROR",
+      let mfaCodeIn = yield { code: "SOFTWARE_MFA_REQUIRED" };
+      while (mfaCodeIn !== mfaCode) {
+        mfaCodeIn = yield {
+          code: "SOFTWARE_MFA_REQUIRED",
           error: new Error("MFA Code incorrect"),
         };
       }
+
+      return returnTokens(username);
     } else {
       return {
         code: "ERROR",
