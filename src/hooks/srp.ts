@@ -27,6 +27,7 @@ export type LoginSRP = {
     username: string
   ) => Promise<TSrpLoginParams["device"]> | TSrpLoginParams["device"];
   customGenerator?: typeof srpLogin;
+  onRescueMFA?: () => void;
 };
 
 export const useAuthStep = ({ onComplete, onError }: LoginEvents) => {
@@ -51,6 +52,7 @@ export const useSRP = ({
   customGenerator,
   deviceForUsername,
   setStep,
+  onRescueMFA,
 }: LoginSRP & { setStep: (step: TAuthStep) => void }) => {
   const [loading, setLoading] = React.useState(
     !!(initial?.username && initial?.password)
@@ -92,5 +94,6 @@ export const useSRP = ({
     next,
     loading,
     initial,
+    onRescueMFA,
   };
 };

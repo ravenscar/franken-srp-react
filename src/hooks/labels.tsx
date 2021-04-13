@@ -16,6 +16,8 @@ export const defaultLabels = {
     "Your password has been reset. Enter a new password to continue.",
   newPassword: "New Password",
   success: "Signed in successfully.",
+  mfaRescueHint: "Having trouble logging in with MFA?",
+  mfaRescueButtonLabel: "Click here"
 };
 export type TLabels = typeof defaultLabels;
 
