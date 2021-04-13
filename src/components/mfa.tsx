@@ -11,12 +11,10 @@ export type MFAProps = {
   error?: Error;
   onSubmit: (params: MFAParams) => void;
   onRescueMFA?: () => void;
-  mfaRescueHint?: string;
-  mfaRescueButtonLabel?: string;
 };
 
-export const MFA = ({ label, type, hint, error, onSubmit, onRescueMFA, mfaRescueHint, mfaRescueButtonLabel }: MFAProps) => {
-  const { verify, mfaRescueHint: mfaRescueHintDefault, mfaRescueButtonLabel: mfaRescueButtonLabelDefault } = useLabels();
+export const MFA = ({ label, type, hint, error, onSubmit, onRescueMFA }: MFAProps) => {
+  const { verify, mfaRescueHint, mfaRescueButtonLabel } = useLabels();
   const [code, setCode] = React.useState("");
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -38,8 +36,8 @@ export const MFA = ({ label, type, hint, error, onSubmit, onRescueMFA, mfaRescue
       <Button type="submit">{verify}</Button>
       {onRescueMFA && (
         <Hint>
-          {mfaRescueHint || mfaRescueHintDefault}{' '}
-          <Link onClick={() => onRescueMFA()}>{mfaRescueButtonLabel || mfaRescueButtonLabelDefault}</Link>
+          {mfaRescueHint}{' '}
+          <Link onClick={() => onRescueMFA()}>{mfaRescueButtonLabel}</Link>
         </Hint>
       )}
     </Form>
