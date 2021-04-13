@@ -33,12 +33,21 @@ export const Forms = ({
         <MFA
           label={smsMFA}
           hint={`${smsPrompt} ${step.hint}`}
+          error={step.error}
           onSubmit={next}
           onRescueMFA={onRescueMFA}
         />
       );
     case "SOFTWARE_MFA_REQUIRED":
-      return <MFA label={totpMFA} hint={totpPrompt} onSubmit={next} onRescueMFA={onRescueMFA} />;
+      return (
+        <MFA
+          label={totpMFA}
+          hint={totpPrompt}
+          error={step.error}
+          onSubmit={next}
+          onRescueMFA={onRescueMFA}
+        />
+      );
     case "NEW_PASSWORD_REQUIRED":
       return (
         <MFA

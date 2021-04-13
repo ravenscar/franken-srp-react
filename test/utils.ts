@@ -12,6 +12,7 @@ export const cognitoProps = {
 export const username = "email@domain.com";
 export const password = "correct_password";
 export const mfaCode = "123456";
+export const mfaCodeHint = "+61***321";
 
 export const onComplete = jest.fn();
 export const onError = jest.fn();
