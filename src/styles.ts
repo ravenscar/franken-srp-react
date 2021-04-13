@@ -126,3 +126,15 @@ export const Spinner = styled.div`
   height: 100%;
   width: 100%;
 `;
+
+export const Link = styled.a`
+  text-decoration: none;
+  color: #4a90e2;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+  &:focus {
+    outline-style: none;
+  }
+`;

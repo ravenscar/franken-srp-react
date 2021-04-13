@@ -66,6 +66,14 @@ export const examples: Record<
       }}
     />
   ),
+  "With MFA Rescue Link": (opts) => (
+    <Login
+      {...opts}
+      {...defaultProps}
+      initial={{ username: USERNAME, password: PASSWORD }}
+      onRescueMFA={() => console.log('implement MFA rescue logic here..')}
+    />
+  ),
 };
 
 export type ExampleKeys = keyof typeof examples;

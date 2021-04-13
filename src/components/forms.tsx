@@ -10,6 +10,7 @@ export const Forms = ({
   step,
   next,
   loading,
+  onRescueMFA,
 }: { step?: TAuthStep } & ReturnType<typeof useSRP>) => {
   const {
     smsMFA,
@@ -34,6 +35,7 @@ export const Forms = ({
           hint={`${smsPrompt} ${step.hint}`}
           error={step.error}
           onSubmit={next}
+          onRescueMFA={onRescueMFA}
         />
       );
     case "SOFTWARE_MFA_REQUIRED":
@@ -43,6 +45,7 @@ export const Forms = ({
           hint={totpPrompt}
           error={step.error}
           onSubmit={next}
+          onRescueMFA={onRescueMFA}
         />
       );
     case "NEW_PASSWORD_REQUIRED":
@@ -52,6 +55,7 @@ export const Forms = ({
           hint={newPasswordPrompt}
           type="password"
           onSubmit={next}
+          onRescueMFA={onRescueMFA}
         />
       );
   }

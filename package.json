@@ -1,6 +1,6 @@
 {
   "name": "franken-srp-react",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "react component for franken-srp",
   "main": "dist/index.js",
   "scripts": {

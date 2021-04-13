@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { useLabels, MFAParams } from "../hooks";
-import { Hint, Error, Button, Form } from "../styles";
+import { Hint, Error, Button, Form, Link } from "../styles";
 import { Field } from "./field";
 
 export type MFAProps = {
@@ -10,10 +10,11 @@ export type MFAProps = {
   hint?: string;
   error?: Error;
   onSubmit: (params: MFAParams) => void;
+  onRescueMFA?: () => void;
 };
 
-export const MFA = ({ label, type, hint, error, onSubmit }: MFAProps) => {
-  const { verify } = useLabels();
+export const MFA = ({ label, type, hint, error, onSubmit, onRescueMFA }: MFAProps) => {
+  const { verify, mfaRescueHint, mfaRescueButtonLabel } = useLabels();
   const [code, setCode] = React.useState("");
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,6 +34,12 @@ export const MFA = ({ label, type, hint, error, onSubmit }: MFAProps) => {
         autoFocus
       />
       <Button type="submit">{verify}</Button>
+      {onRescueMFA && (
+        <Hint>
+          {mfaRescueHint}{' '}
+          <Link onClick={() => onRescueMFA()}>{mfaRescueButtonLabel}</Link>
+        </Hint>
+      )}
     </Form>
   );
 };
