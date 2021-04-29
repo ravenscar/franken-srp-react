@@ -37,7 +37,7 @@ export const MFA = ({ label, type, hint, error, onSubmit, onRescueMFA }: MFAProp
       {onRescueMFA && (
         <Hint>
           {mfaRescueHint}{' '}
-          <Link onClick={() => onRescueMFA()}>{mfaRescueButtonLabel}</Link>
+          <Link id="mfa-rescue" onClick={() => onRescueMFA()}>{mfaRescueButtonLabel}</Link>
         </Hint>
       )}
     </Form>
