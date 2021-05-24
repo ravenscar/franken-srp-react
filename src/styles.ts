@@ -90,8 +90,7 @@ export const Button = styled.button`
   border: 0;
   border-radius: 5px;
   display: block;
-  margin: 1.8em
-    ${(props) => (props.theme.textAlign === "center" ? "auto" : "0.4em")};
+  margin: 1.8em auto;
   padding: 0.8em;
   width: 60%;
   cursor: pointer;
