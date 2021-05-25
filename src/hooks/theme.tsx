@@ -9,6 +9,8 @@ export const defaultTheme = {
 
   fontFamily: "inherit",
   fontSize: "10px",
+  textAlign: "center",
+  width: "50em",
 };
 
 export type TTheme = typeof defaultTheme;

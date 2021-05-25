@@ -7,7 +7,7 @@ export const Container = styled.div`
   font-family: ${(props) => props.theme.fontFamily};
   font-size: ${(props) => props.theme.fontSize};
 
-  width: 50em;
+  width: ${(props) => props.theme.width};
   max-width: 98%;
 `;
 
@@ -21,26 +21,26 @@ export const Title = styled.h1`
   font-size: 3.4em;
   font-weight: 600;
   margin: 0.2em 0;
-  text-align: center;
+  text-align: ${(props) => props.theme.textAlign};
 `;
 
 export const Subtitle = styled.h3`
   font-size: 1.6em;
   font-weight: 400;
-  text-align: center;
+  text-align: ${(props) => props.theme.textAlign};
 `;
 
 export const Error = styled.p`
   font-size: 1.6em;
   font-weight: 600;
-  text-align: center;
+  text-align: ${(props) => props.theme.textAlign};
   color: ${(props) => props.theme.dangerColour};
 `;
 
 export const Success = styled.p`
   font-size: 1.6em;
   font-weight: 600;
-  text-align: center;
+  text-align: ${(props) => props.theme.textAlign};
   color: ${(props) => props.theme.successColour};
 `;
 
@@ -48,7 +48,7 @@ export const Hint = styled.p`
   font-size: 1.6em;
   font-weight: 400;
   margin: 0.4em 0;
-  text-align: center;
+  text-align: ${(props) => props.theme.textAlign};
 `;
 
 export const Form = styled.form<{ hidden?: boolean }>`
@@ -86,8 +86,7 @@ export const Input = styled.input<{ large?: boolean }>`
 
 export const Button = styled.button`
   background-color: ${(props) => props.theme.activeColour};
-  color: ${(props) =>
-    transparentize(0.2, readableColor(props.theme.activeColour))};
+  color: ${(props) => readableColor(props.theme.activeColour)};
   border: 0;
   border-radius: 5px;
   display: block;
@@ -97,7 +96,7 @@ export const Button = styled.button`
   cursor: pointer;
 
   font-size: 1.5em;
-  font-weight: 600;
+  font-weight: 500;
 
   &:focus {
     outline: none;
