@@ -77,7 +77,7 @@ export const useSRP = ({
   const next = async ({ code }: { code?: string }) => {
     if (generator) {
       setLoading(true);
-      const result = await (code ? generator.next(code) : generator.next());
+      const result = await generator.next(code || '');
       setLoading(false);
       setStep(result.value);
     }

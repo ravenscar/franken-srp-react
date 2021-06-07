@@ -1,6 +1,6 @@
 import { TAuthStep, TSrpLoginParams, TSrpLoginResponse } from "franken-srp";
 
-import { mfaCode, mfaCodeHint, password, username } from "./utils";
+import { mfaCode as expectedMfaCode, mfaCodeHint, password, username } from "./utils";
 
 export const returnTokens = async (
   username: string,
@@ -43,13 +43,21 @@ export const mockGenerators = {
   },
   smsMfa: async function* (opts: TSrpLoginParams): TSrpLoginResponse {
     if (opts.username === username && opts.password === password) {
-      let mfaCodeIn = yield { code: "SMS_MFA_REQUIRED", hint: mfaCodeHint };
-      while (mfaCodeIn !== mfaCode) {
-        mfaCodeIn = yield {
+      let valid = false;
+      let errorResponse: Error | undefined;
+
+      while (!valid) {
+        const mfaCodeIn = yield {
           code: "SMS_MFA_REQUIRED",
           hint: mfaCodeHint,
-          error: new Error("MFA Code incorrect"),
+          error: errorResponse,
         };
+        const mfaCode = mfaCodeIn.match(/^[0-9]+$/)?.[0];
+        if (mfaCode !== expectedMfaCode) {
+          errorResponse = new Error("MFA Code incorrect");
+        } else {
+          valid = true;
+        }
       }
 
       return returnTokens(username);
@@ -62,12 +70,21 @@ export const mockGenerators = {
   },
   softwareMfa: async function* (opts: TSrpLoginParams): TSrpLoginResponse {
     if (opts.username === username && opts.password === password) {
-      let mfaCodeIn = yield { code: "SOFTWARE_MFA_REQUIRED" };
-      while (mfaCodeIn !== mfaCode) {
-        mfaCodeIn = yield {
+      let valid = false;
+      let errorResponse: Error | undefined;
+      
+      while (!valid) {
+        const mfaCodeIn = yield {
           code: "SOFTWARE_MFA_REQUIRED",
-          error: new Error("MFA Code incorrect"),
+          error: errorResponse,
         };
+        const mfaCode = mfaCodeIn.match(/^[0-9]+$/)?.[0];
+
+        if (mfaCode !== expectedMfaCode) {
+          errorResponse = new Error("MFA Code incorrect");
+        } else {
+          valid = true;
+        }
       }
 
       return returnTokens(username);
