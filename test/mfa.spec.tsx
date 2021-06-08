@@ -91,6 +91,35 @@ describe("sms mfa", () => {
     expect(onError).not.toHaveBeenCalled();
     expect(screen.getByRole("alert")).toHaveTextContent(/success/);
   });
+
+  it("shows error when no code is entered", async () => {
+    render(<Login {...defaultProps} customGenerator={mockGenerators.smsMfa} />);
+    await fillAndClick(
+      { [labels.username]: username, [labels.password]: password },
+      labels.signIn
+    );
+
+    expect(screen.getByLabelText(labels.smsMFA)).toHaveValue("");
+    await fillAndClick({}, labels.verify);
+
+    expect(onError).not.toHaveBeenCalled();
+    expect(onComplete).not.toHaveBeenCalled();
+
+    expect(screen.getByRole("alert")).toHaveTextContent(/incorrect/);
+    expect(screen.getByLabelText(labels.smsMFA)).toHaveValue("");
+    await fillAndClick({ [labels.smsMFA]: mfaCode }, labels.verify);
+
+    expect(onComplete).toHaveBeenCalledWith(
+      expect.objectContaining({
+        tokens: expect.objectContaining({
+          accessToken: "ACCESS_TOKEN",
+          refreshToken: "REFRESH_TOKEN",
+        }),
+      })
+    );
+    expect(onError).not.toHaveBeenCalled();
+    expect(screen.getByRole("alert")).toHaveTextContent(/success/);
+  });
 });
 
 describe("software mfa", () => {
